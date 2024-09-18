@@ -229,14 +229,70 @@
         const engineVolume = document.getElementById('engineVolume').value;
         const discount = document.getElementById('discount').checked;
 
-        alert(`
-            Кто растамаживает: ${who}
-            Возраст автомобиля: ${carAge}
-            Стоимость: €${price}
-            Тип двигателя: ${engineType}
-            Объем двигателя: ${engineVolume} см³
-            Таможенная льгота 50%: ${discount ? "Да" : "Нет"}
-        `);
+        let duty = 0;
+
+        // Расчет для физических лиц
+        if (who === 'Физ. лицо') {
+            if (carAge === 'до 3-х лет') {
+                if (price <= 8500) {
+                    duty = Math.max(0.54 * price, 2.5 * engineVolume);
+                } else if (price <= 16700) {
+                    duty = Math.max(0.48 * price, 3.5 * engineVolume);
+                } else if (price <= 42300) {
+                    duty = Math.max(0.48 * price, 5.5 * engineVolume);
+                } else if (price <= 84500) {
+                    duty = Math.max(0.48 * price, 7.5 * engineVolume);
+                } else if (price <= 169000) {
+                    duty = Math.max(0.48 * price, 15 * engineVolume);
+                } else {
+                    duty = Math.max(0.48 * price, 20 * engineVolume);
+                }
+            } else if (carAge === 'от 3-х до 5 лет') {
+                if (engineVolume <= 1000) {
+                    duty = 1.5 * engineVolume;
+                } else if (engineVolume <= 1500) {
+                    duty = 1.7 * engineVolume;
+                } else if (engineVolume <= 1800) {
+                    duty = 2.5 * engineVolume;
+                } else if (engineVolume <= 2300) {
+                    duty = 2.7 * engineVolume;
+                } else if (engineVolume <= 3000) {
+                    duty = 3.0 * engineVolume;
+                } else {
+                    duty = 3.6 * engineVolume;
+                }
+            } else {
+                if (engineVolume <= 1000) {
+                    duty = 3.0 * engineVolume;
+                } else if (engineVolume <= 1500) {
+                    duty = 3.2 * engineVolume;
+                } else if (engineVolume <= 1800) {
+                    duty = 3.5 * engineVolume;
+                } else if (engineVolume <= 2300) {
+                    duty = 4.8 * engineVolume;
+                } else if (engineVolume <= 3000) {
+                    duty = 5.0 * engineVolume;
+                } else {
+                    duty = 5.7 * engineVolume;
+                }
+            }
+        }
+        // Расчет для юридических лиц
+        else {
+            if (carAge === 'до 3-х лет') {
+                duty = Math.max(0.3 * price, 1.2 * engineVolume);
+            } else if (carAge === 'от 3-х до 5 лет') {
+                duty = Math.max(0.35 * price, 1.45 * engineVolume);
+            } else {
+                duty = 5.8 * engineVolume;
+            }
+        }
+
+        if (engineType === "Электро") {
+            duty = 0
+        }
+
+        alert(`Таможенная пошлина: ${duty.toFixed(2)} EUR`);
     });
 </script>
 
