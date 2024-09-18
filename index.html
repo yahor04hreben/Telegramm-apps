@@ -7,52 +7,157 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
         }
         .container {
-            text-align: left;
             background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            width: 340px;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            text-align: left;
         }
-        .container h1 {
-            font-size: 18px;
+        h1 {
+            font-size: 20px;
             margin-bottom: 10px;
+            color: #202124;
+        }
+        p {
+            font-size: 12px;
+            margin-bottom: 20px;
+            color: #5f6368;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #202124;
         }
         .form-group {
             margin-bottom: 15px;
         }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
+        .radio-group {
+            display: flex;
+            gap: 10px;
+        }
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+        .radio-group label {
+            padding: 10px 20px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+            background-color: white;
+            text-align: center;
+        }
+        .radio-group input[type="radio"]:checked + label {
+            background-color: #e8f0fe;
+            border-color: #1a73e8;
         }
         input, select {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #202124;
+            background-color: #fff;
+        }
+        
+        input[type="number"] {
+            width: 92.5%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #333;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        input[type="number"]::placeholder {
+            color: #999;
+            font-size: 16px;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 8px rgba(26, 115, 232, 0.3);
+        }
+
+        select {
+            appearance: none;
+            background: url('data:image/svg+xml;base64,...') no-repeat right 12px center;
         }
         .toggle-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 14px;
+            color: #202124;
         }
+        .toggle-container label {
+            margin-right: 10px;
+        }
+        .toggle-container input[type="checkbox"] {
+            width: 40px;
+            height: 20px;
+            appearance: none;
+            background-color: #dadce0;
+            border-radius: 50px;
+            position: relative;
+            outline: none;
+            cursor: pointer;
+        }
+        .toggle-container input[type="checkbox"]:checked {
+            background-color: #1a73e8;
+        }
+        .toggle-container input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-container input[type="checkbox"]:checked::before {
+            transform: translateX(15px);
+        }
+
         button {
             width: 100%;
-            padding: 10px;
-            font-size: 18px;
-            background-color: #0088cc;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #1a73e8;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+        }
+        button:hover {
+            background-color: #1769d1;
         }
     </style>
 </head>
@@ -60,11 +165,16 @@
 
 <div class="container">
     <h1>Таможенный калькулятор Беларуси</h1>
+    <p>Расчет всех таможенных пошлин и сборов для автомобилей, ввезенных в Беларусь</p>
+
+    <div class="section-title">Параметры автомобиля</div>
+
     <div class="form-group">
         <label>Кто растамаживает</label>
-        <div>
+        <div class="radio-group">
             <input type="radio" id="physPerson" name="who" value="Физ. лицо" checked>
             <label for="physPerson">Физ. лицо</label>
+
             <input type="radio" id="jurPerson" name="who" value="Юр. лицо">
             <label for="jurPerson">Юр. лицо</label>
         </div>
@@ -72,7 +182,8 @@
 
     <div class="form-group">
         <label for="carAge">Возраст автомобиля</label>
-        <select id="carAge">
+        <select id="carAge" required>
+            <option value="" disabled selected>Возраст автомобиля</option>
             <option value="до 3-х лет">до 3-х лет</option>
             <option value="от 3-х до 5 лет">от 3-х до 5 лет</option>
             <option value="более 5 лет">более 5 лет</option>
@@ -87,6 +198,7 @@
     <div class="form-group">
         <label for="engineType">Тип двигателя</label>
         <select id="engineType">
+            <option value="" disabled selected>Тип двигателя</option>
             <option value="Бензин">Бензин</option>
             <option value="Бензин(гибрид)">Бензин(гибрид)</option>
             <option value="Дизель">Дизель</option>
