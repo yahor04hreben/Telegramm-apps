@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Mini App</title>
+    <title>Таможенный калькулятор Беларуси</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,14 +14,39 @@
             background-color: #f0f0f0;
         }
         .container {
-            text-align: center;
-            padding: 20px;
+            text-align: left;
             background-color: white;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .container h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         button {
-            padding: 10px 20px;
+            width: 100%;
+            padding: 10px;
             font-size: 18px;
             background-color: #0088cc;
             color: white;
@@ -29,32 +54,78 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .counter {
-            margin-top: 20px;
-            font-size: 24px;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Click Counter</h1>
-    <button id="clickButton">Click me!</button>
-    <div class="counter" id="counter">0</div>
+    <h1>Таможенный калькулятор Беларуси</h1>
+    <div class="form-group">
+        <label>Кто растамаживает</label>
+        <div>
+            <input type="radio" id="physPerson" name="who" value="Физ. лицо" checked>
+            <label for="physPerson">Физ. лицо</label>
+            <input type="radio" id="jurPerson" name="who" value="Юр. лицо">
+            <label for="jurPerson">Юр. лицо</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="carAge">Возраст автомобиля</label>
+        <select id="carAge">
+            <option value="до 3-х лет">до 3-х лет</option>
+            <option value="от 3-х до 5 лет">от 3-х до 5 лет</option>
+            <option value="более 5 лет">более 5 лет</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="price">Стоимость, EUR</label>
+        <input type="number" id="price" value="15000">
+    </div>
+
+    <div class="form-group">
+        <label for="engineType">Тип двигателя</label>
+        <select id="engineType">
+            <option value="Бензин">Бензин</option>
+            <option value="Бензин(гибрид)">Бензин(гибрид)</option>
+            <option value="Дизель">Дизель</option>
+            <option value="Дизель(гибрид)">Дизель(гибрид)</option>
+            <option value="Электро">Электро</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="engineVolume">Объем двигателя, см³</label>
+        <input type="number" id="engineVolume" value="1499">
+    </div>
+
+    <div class="form-group toggle-container">
+        <label>Таможенная льгота 50%</label>
+        <input type="checkbox" id="discount" checked>
+    </div>
+
+    <button id="calculate">Рассчитать стоимость</button>
 </div>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <script>
-    let count = 0;
+    document.getElementById('calculate').addEventListener('click', function() {
+        const who = document.querySelector('input[name="who"]:checked').value;
+        const carAge = document.getElementById('carAge').value;
+        const price = document.getElementById('price').value;
+        const engineType = document.getElementById('engineType').value;
+        const engineVolume = document.getElementById('engineVolume').value;
+        const discount = document.getElementById('discount').checked;
 
-    const button = document.getElementById('clickButton');
-    const counterDisplay = document.getElementById('counter');
-
-    button.addEventListener('click', () => {
-        count++;
-        counterDisplay.textContent = count;
+        alert(`
+            Кто растамаживает: ${who}
+            Возраст автомобиля: ${carAge}
+            Стоимость: €${price}
+            Тип двигателя: ${engineType}
+            Объем двигателя: ${engineVolume} см³
+            Таможенная льгота 50%: ${discount ? "Да" : "Нет"}
+        `);
     });
-
-    Telegram.WebApp.ready();
 </script>
 
 </body>
