@@ -329,7 +329,7 @@
                 </select>
             </div>
     
-            <div class="form-group">
+            <div class="form-group" id="engineVolumeDiv">
                 <label for="engineVolume">ОБЪЕМ ДВИГАТЕЛ, СМ³</label>
                 <input type="number" id="engineVolume" placeholder="0">
             </div>
@@ -360,7 +360,7 @@
             </div>
             <div class="summary-item">
                 <span>Утилизационный сбор</span>
-                <span class="summary-value">0 BYN</span>
+                <span class="summary-value" id="recycling_fee">0 BYN</span>
             </div>
             <div class="summary-item">
                 <span>Таможенный сбор</span>
@@ -388,6 +388,25 @@
                 input.blur();  // Hides the keyboard by removing focus from the input field
             }
         });
+    });
+
+    document.getElementById('engineType').addEventListener('change', function() {
+        const engine = document.getElementById('engineVolume');
+        const childrens = document.getElementById('engineVolumeDiv').children;
+
+        if (this.value === 'Электро') {
+            engine.disabled = true;
+            engine.value = "0";
+
+            for(var i = 0, length = childrens.length; i < length; i++) {
+                childrens[i].style.opacity = 0.4;
+            }
+        } else {
+            engine.disabled = false;
+            for(var i = 0, length = childrens.length; i < length; i++) {
+                childrens[i].style.opacity = 1;
+            }
+        }
     });
 
     document.getElementById('physPerson').addEventListener('change', function() {
@@ -432,8 +451,13 @@
 
         let duty = 0;
         let custom_duty = 0;
+        let recycling_fee = 0
 
-        if (engineType === "" || carAge === "" || price == "" || engineVolume == "") {
+        if (engineType === "" || carAge === "" || price == "" || (engineVolume == "" && engineType != "Электро")) {
+            console.log(`${engineVolume}`)
+            console.log(`${engineType}`)
+            console.log(`${(engineVolume == "" && engineType != "Электро")}`)
+
             if (engineType === "") {
                 document.getElementById('engineType').classList.add('error')
             }
@@ -446,10 +470,10 @@
                 document.getElementById('price').classList.add('error')
             }
 
-            if (engineVolume == "") { 
+            if (engineVolume == "" && engineType != "Электро") { 
                 document.getElementById('engineVolume').classList.add('error')
             }
-        } if (isNaN(parseInt(price)) || isNaN(parseInt(engineVolume))) {
+        } if (isNaN(parseInt(price)) || (isNaN(parseInt(engineVolume)))) {
             if (isNaN(parseInt(price))) {
                 document.getElementById('price').classList.add('error')
             }
@@ -585,9 +609,52 @@
             }
 
             custom_duty = 120
+
+            if (who === 'Физ. лицо') {
+                if (carAge === 'до 3-х лет') {
+                    recycling_fee = '544.5';
+                } else {
+                    recycling_fee = '816.7';
+                }
+            } else { 
+                if (engineType === "Электро") {
+                    if (carAge === 'до 3-х лет') {
+                        recycling_fee = '11 645.24';
+                    } else {
+                        recycling_fee = '20 485.71';
+                    }
+                } else {
+                    if (carAge === 'до 3-х лет') {
+                        if (engineVolume < 1000) {
+                            recycling_fee = '3 145.69';
+                        } else if (engineVolume <= 2000) {
+                            recycling_fee = '11 645.24';
+                        } else if (engineVolume <= 3000) {
+                            recycling_fee = '32 727.55';
+                        } else if (engineVolume <= 3500) {
+                            recycling_fee = '37 577.8';
+                        }else {
+                            recycling_fee = '47 851.65';
+                        }
+                    } else {
+                        if (engineVolume < 1000) {
+                            recycling_fee = '8 026.93';
+                        } else if (engineVolume <= 2000) {
+                            recycling_fee = '20 485.71';
+                        } else if (engineVolume <= 3000) {
+                            recycling_fee = '49 548.46';
+                        } else if (engineVolume <= 3500) {
+                            recycling_fee = '57 528.9';
+                        }else {
+                            recycling_fee = '62 906.01';
+                        }
+                    }
+                }
+            }
         }
 
         document.getElementById("first_calc").textContent = `${duty.toFixed(0)} EUR`
+        document.getElementById("recycling_fee").textContent = `${recycling_fee} BYN`
         document.getElementById("custom_duty").textContent = `${custom_duty.toFixed(0)} BYN`
     });
 </script>
