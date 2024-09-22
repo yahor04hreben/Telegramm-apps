@@ -6,7 +6,7 @@
     <title>Таможенный калькулятор Беларуси</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
             background-color: #EEF4FA;
             margin: 0;
             padding: 0;
@@ -183,6 +183,7 @@
 
         #discount-label label {
             font-size: 16px;
+            font-weight: 400;
         }
 
         hr {
@@ -296,7 +297,7 @@
             <div class="section-title">Параметры автомобиля</div>
     
             <div class="form-group">
-                <label>Кто растамаживает</label>
+                <label>КТО РАСТАМАЖИВАЕТ</label>
                 <div class="radio-group">
                     <input type="radio" id="physPerson" name="who" value="Физ. лицо" checked>
                     <label for="physPerson">Физ. лицо</label>
@@ -307,7 +308,7 @@
             </div>
     
             <div class="form-group">
-                <label for="carAge">Возраст автомобиля</label>
+                <label for="carAge">ВОЗРАСТ АВТОМОБИЛЯ</label>
                 <select id="carAge" required>
                     <option value="" disabled selected>Возраст автомобиля</option>
                     <option value="до 3-х лет">до 3-х лет</option>
@@ -317,12 +318,7 @@
             </div>
     
             <div class="form-group">
-                <label for="price">Стоимость, EUR</label>
-                <input type="number" id="price" placeholder="0">
-            </div>
-    
-            <div class="form-group">
-                <label for="engineType">Тип двигателя</label>
+                <label for="engineType"> ТИП ДВИГАТЕЛЯ</label>
                 <select id="engineType">
                     <option value="" disabled selected>Тип двигателя</option>
                     <option value="Бензин">Бензин</option>
@@ -334,8 +330,13 @@
             </div>
     
             <div class="form-group">
-                <label for="engineVolume">Объем двигателя, см³</label>
+                <label for="engineVolume">ОБЪЕМ ДВИГАТЕЛ, СМ³</label>
                 <input type="number" id="engineVolume" placeholder="0">
+            </div>
+
+            <div class="form-group">
+                <label for="price">СТОИМОСТЬ, EUR</label>
+                <input type="number" id="price" placeholder="0">
             </div>
     
             <div id="discount-label" class="form-group toggle-container">
@@ -363,7 +364,7 @@
             </div>
             <div class="summary-item">
                 <span>Таможенный сбор</span>
-                <span class="summary-value">0 BYN</span>
+                <span id="custom_duty" class="summary-value">0 BYN</span>
             </div>
         </div>
     </div>
@@ -389,6 +390,33 @@
         });
     });
 
+    document.getElementById('physPerson').addEventListener('change', function() {
+        const who = document.querySelector('input[name="who"]:checked').value;
+        const discountElement = document.getElementById('discount')
+        const childrens = document.getElementById('discount-label').children;
+       
+
+        console.log(`${who}`)
+        discountElement.disabled = false;
+
+        for(var i = 0, length = childrens.length; i < length; i++) {
+            childrens[i].style.opacity = 1
+        }
+    });
+
+    document.getElementById('jurPerson').addEventListener('change', function() {
+        const who = document.querySelector('input[name="who"]:checked').value;
+        const discountElement = document.getElementById('discount')
+        const childrens = document.getElementById('discount-label').children;
+
+        console.log(`12 ${who}`)
+        discountElement.disabled = true;
+        discountElement.checked = false;
+        for(var i = 0, length = childrens.length; i < length; i++) {
+            childrens[i].style.opacity = 0.4
+        }
+    });
+
     document.getElementById('calculate').addEventListener('click', function() {
         const who = document.querySelector('input[name="who"]:checked').value;
         const carAge = document.getElementById('carAge').value;
@@ -403,6 +431,8 @@
         document.getElementById('engineVolume').classList.remove('error')
 
         let duty = 0;
+        let custom_duty = 0;
+
         if (engineType === "" || carAge === "" || price == "" || engineVolume == "") {
             if (engineType === "") {
                 document.getElementById('engineType').classList.add('error')
@@ -475,12 +505,76 @@
             }
             // Расчет для юридических лиц
             else {
-                if (carAge === 'до 3-х лет') {
-                    duty = Math.max(0.3 * price, 1.2 * engineVolume);
-                } else if (carAge === 'от 3-х до 5 лет') {
-                    duty = Math.max(0.35 * price, 1.45 * engineVolume);
+                if (engineType === "Бензин" || engineType === "Бензин(гибрид)") {
+                    if (carAge === 'до 3-х лет') {
+                        if (engineVolume <= 1000) {
+                            duty = Math.max(0.30 * price, 1.2 * engineVolume);
+                        } else if (engineVolume <= 1500) {
+                            duty = Math.max(0.30 * price, 1.45 * engineVolume);
+                        } else if (engineVolume <= 1800) {
+                            duty = Math.max(0.30 * price, 1.5 * engineVolume);
+                        } else if (engineVolume <= 2300) {
+                            duty = Math.max(0.30 * price, 2.15 * engineVolume);
+                        } else if (engineVolume <= 3000) {
+                            duty = Math.max(0.30 * price, 2.15 * engineVolume);
+                        } else {
+                            duty = Math.max(0.30 * price, 2.8 * engineVolume);
+                        }
+                    } else if (carAge === 'от 3-х до 5 лет') {
+                        if (engineVolume <= 1000) {
+                            duty = Math.max(0.35 * price, 1.2 * engineVolume);
+                        } else if (engineVolume <= 1500) {
+                            duty = Math.max(0.35 * price, 1.45 * engineVolume);
+                        } else if (engineVolume <= 1800) {
+                            duty = Math.max(0.35 * price, 1.5 * engineVolume);
+                        } else if (engineVolume <= 2300) {
+                            duty = Math.max(0.35 * price, 2.15 * engineVolume);
+                        } else if (engineVolume <= 3000) {
+                            duty = Math.max(0.35 * price, 2.15 * engineVolume);
+                        } else {
+                            duty = Math.max(0.35 * price, 2.8 * engineVolume);
+                        }
+                    } else {
+                        if (engineVolume <= 1000) {
+                            duty = 2.5 * engineVolume;
+                        } else if (engineVolume <= 1500) {
+                            duty = 2.7 * engineVolume;
+                        } else if (engineVolume <= 1800) {
+                            duty = 2.9 * engineVolume;
+                        } else if (engineVolume <= 2300) {
+                            duty = 4.0 * engineVolume;
+                        } else if (engineVolume <= 3000) {
+                            duty = 4.0 * engineVolume;
+                        } else {
+                            duty = 5.8 * engineVolume;
+                        }
+                    }
                 } else {
-                    duty = 5.8 * engineVolume;
+                 if (carAge === 'до 3-х лет') {
+                        if (engineVolume <= 1500) {
+                            duty = Math.max(0.30 * price, 1.45 * engineVolume);
+                        } else if (engineVolume <= 2500) {
+                            duty = Math.max(0.30 * price, 1.9 * engineVolume);
+                        } else {
+                            duty = Math.max(0.30 * price, 2.8 * engineVolume);
+                        }
+                    } else if (carAge === 'от 3-х до 5 лет') {
+                        if (engineVolume <= 1500) {
+                            duty = Math.max(0.35 * price, 1.45 * engineVolume);
+                        } else if (engineVolume <= 2500) {
+                            duty = Math.max(0.35 * price, 1.9 * engineVolume);
+                        } else {
+                            duty = Math.max(0.35 * price, 2.8 * engineVolume);
+                        }
+                    } else {
+                        if (engineVolume <= 1500) {
+                            duty = 2.7 * engineVolume;
+                        } else if (engineVolume <= 2500) {
+                            duty = 4.0 * engineVolume;
+                        } else {
+                            duty = 5.8 * engineVolume;
+                        }
+                    }
                 }
             }
 
@@ -489,9 +583,12 @@
             } else if(discount) {
                 duty = duty / 2
             }
+
+            custom_duty = 120
         }
 
         document.getElementById("first_calc").textContent = `${duty.toFixed(0)} EUR`
+        document.getElementById("custom_duty").textContent = `${custom_duty.toFixed(0)} BYN}`
     });
 </script>
 
