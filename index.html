@@ -332,8 +332,10 @@
         if (user) {
             const fullName = `${user.first_name} ${user.last_name}`
             mixpanel.identify(fullName);
+
+            alert(`fullName : ${fullName}`);
         } else {
-            print('user is null')
+             alert("not user!");
         }
 </script>
 </head>
