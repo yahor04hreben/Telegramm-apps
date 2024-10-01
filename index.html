@@ -330,9 +330,8 @@
         Telegram.WebApp.ready();
         const user = Telegram.WebApp.initDataUnsafe.user;
         if (user) {
-            const userName = `@${user.userName}` || `${user.first_name} ${user.last_name}`
-            alert(userName)
-            mixpanel.identify(userName);
+            const fullName = `${user.first_name} ${user.last_name}`
+            mixpanel.identify(fullName);
         } else {
             const uuid = generateUUID()
             mixpanel.identify(`${uuid}`)
