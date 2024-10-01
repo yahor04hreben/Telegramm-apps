@@ -325,7 +325,6 @@
         for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");
         a.type="text/javascript";a.async=!0;a.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
         e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
-        // Initialize Mixpanel with your project token
         mixpanel.init("8c297e0d4c87e5136d82422e10bb3aec");
 
         Telegram.WebApp.ready();
@@ -333,11 +332,17 @@
         if (user) {
             const fullName = `${user.first_name} ${user.last_name}`
             mixpanel.identify(fullName);
-
-            alert(`fullName : ${fullName}`);
         } else {
-             alert("not user!");
+            const uuid = generateUUID()
+            mixpanel.identify(`${uuid}`)
         }
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+        });
+}
 </script>
 </head>
 <body>

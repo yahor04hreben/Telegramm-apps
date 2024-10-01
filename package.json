@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "mixpanel-browser": "^2.55.1"
+    "mixpanel-browser": "^2.55.1",
+    "uuid": "^10.0.0"
   }
 }
