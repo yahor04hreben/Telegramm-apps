@@ -91,7 +91,7 @@
         }
         
         input[type="number"] {
-            width: 91.5%;
+            width: 98.15%;
             padding: 12px;
         }
 
@@ -233,6 +233,7 @@
             font-weight: 400;
             font-size: 14px;
         }
+        
 
         #first_calc {
             font-weight: bold;
@@ -276,6 +277,14 @@
             padding: 4px 0px;
             font-weight: 400;
             font-size: small;
+        }
+
+        #carAge, #engineType, #engineVolume, #price { 
+            margin-top: 8px;
+        }
+
+        #who_is_who { 
+            margin-top: 8px;
         }
         
         a {
@@ -366,10 +375,10 @@
                 <label>КТО РАСТАМАЖИВАЕТ</label>
                 <div class="radio-group">
                     <input type="radio" id="physPerson" name="who" value="Физ. лицо" checked>
-                    <label for="physPerson">Физ. лицо</label>
+                    <label id="who_is_who" for="physPerson">Физ. лицо</label>
         
                     <input type="radio" id="jurPerson" name="who" value="Юр. лицо">
-                    <label for="jurPerson">Юр. лицо</label>
+                    <label id="who_is_who" for="jurPerson">Юр. лицо</label>
                 </div>
             </div>
     
