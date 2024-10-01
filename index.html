@@ -327,7 +327,14 @@
         // Initialize Mixpanel with your project token
         mixpanel.init("8c297e0d4c87e5136d82422e10bb3aec");
 
-        mixpanel.identify("yahor");
+        Telegram.WebApp.ready();
+        const user = Telegram.WebApp.initDataUnsafe.user;
+        if (user) {
+            const fullName = `${user.first_name} ${user.last_name}`
+            mixpanel.identify(fullName);
+        } else {
+            print('user is null')
+        }
 </script>
 </head>
 <body>
