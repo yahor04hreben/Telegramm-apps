@@ -283,7 +283,52 @@
             font-size: small;
             color: #00000066;
         }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .contact-button {
+            justify-content: center; 
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px 4px 4px;
+            background-color: #007AFF1A;
+            color:  #007AFF;
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 0.5px solid transparent;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .contact-button:hover {
+            background-color: #d6e8ff;
+            border-color: #005fff;
+        }
+
+
     </style>
+
+<script type="text/javascript">
+    (function(f,b){
+        if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];
+        b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);
+        b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;
+        "undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];
+        c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);
+        b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)};
+        i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");
+        a.type="text/javascript";a.async=!0;a.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
+        e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+        // Initialize Mixpanel with your project token
+        mixpanel.init("8c297e0d4c87e5136d82422e10bb3aec");
+
+        mixpanel.identify("yahor");
+</script>
 </head>
 <body>
 
@@ -378,6 +423,13 @@
             <a href="https://pravo.by/document/?guid=12551&p0=P31900140&p1=1" target="_blank">Указ № 140 Президента Республики Беларусь от 10 апреля 2019 г.</a>
         </li>
     </ul>
+
+    <div style="margin:0 auto;text-align:center;margin-top:24px; margin-bottom: 12px;">
+        <a href="https://your-link.com" class="contact-button">
+            <img src="icTelegram.svg" alt="Telegram" class="icon">
+            Связаться с нами
+        </a>
+    </div>
 </div>
 
 <script>
@@ -437,6 +489,8 @@
     });
 
     document.getElementById('calculate').addEventListener('click', function() {
+        mixpanel.track("calculate_clicked");
+
         const who = document.querySelector('input[name="who"]:checked').value;
         const carAge = document.getElementById('carAge').value;
         const price = document.getElementById('price').value;
