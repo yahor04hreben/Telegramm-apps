@@ -285,94 +285,100 @@
         }
 
         .tab-container {
-            display:flex;
-            margin-left: 16px;
-            margin-right: 16px;
-            margin-top: 20px;
-            background-color: #fff;
-            border-radius: 12px 12px 0 0;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+        width: 100%;
+        display: flex;
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: 20px;
+        background-color: #fff;
+        border-radius: 12px 12px 0 0;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 0; /* Ensures no extra spacing around tabs */
+    }
 
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 12px 0;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 16px;
-            color: #5f6368;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            border-bottom: 2px solid transparent;
-        }
+    /* Tab styling */
+    .tab {
+        flex: 1;
+        text-align: center;
+        padding: 12px 0;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 16px;
+        color: #5f6368;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        border-bottom: 2px solid transparent;
+    }
 
-        .tab:hover {
-            background-color: #f1f3f4;
-            color: #202124;
-        }
+    .tab:hover {
+        background-color: #f1f3f4;
+        color: #202124;
+    }
 
-        .tab.active {
-            background-color: #fff;
-            color: #1a73e8;
-            border-bottom: 2px solid #1a73e8;
-            font-weight: 600;
-        }
+    .tab.active {
+        background-color: #fff;
+        color: #1a73e8;
+        border-bottom: 2px solid #1a73e8;
+        font-weight: 600;
+    }
 
-        .tab-content {
-            display: none;
-            padding: 20px;
-            background-color: #fff;
-            margin-left: 16px;
-            margin-right: 16px;
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    /* Content styling */
+    .tab-content {
+        display: none;
+        padding: 20px; /* Adjusted padding for the content area */
+        background-color: #fff;
+        margin-left: 16px;
+        margin-right: 16px;
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-top: 0; /* Remove any extra borders */
+    }
 
-        .tab-content.active {
-            display: block;
-        }
+    .tab-content.active {
+        display: block;
+        margin-top: 0; /* Ensure content aligns directly under the active tab */
+    }
 
-        #who_is_who { 
-            margin-top: 8px;
-        }
+    #who_is_who { 
+        margin-top: 8px;
+    }
 
-        #europe {
-            width: fit-content;
-        }
-        
-        a {
-            text-decoration: underline;
-            font-weight: 500;
-            font-size: small;
-            color: #00000066;
-        }
+    a {
+        text-decoration: underline;
+        font-weight: 500;
+        font-size: small;
+        color: #00000066;
+    }
 
-        .icon {
-            width: 40px;
-            height: 40px;
-        }
+    .icon {
+        width: 40px;
+        height: 40px;
+    }
 
-        .contact-button {
-            justify-content: center; 
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 12px 4px 4px;
-            background-color: #007AFF1A;
-            color:  #007AFF;
-            font-size: 16px;
-            font-family: 'Arial', sans-serif;
-            text-decoration: none;
-            border-radius: 10px;
-            border: 0.5px solid transparent;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
+    .contact-button {
+        justify-content: center; 
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px 4px 4px;
+        background-color: #007AFF1A;
+        color:  #007AFF;
+        font-size: 16px;
+        font-family: 'Arial', sans-serif;
+        text-decoration: none;
+        border-radius: 10px;
+        border: 0.5px solid transparent;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
 
-        .contact-button:hover {
-            background-color: #d6e8ff;
-            border-color: #005fff;
-        }
+    .contact-button:hover {
+        background-color: #d6e8ff;
+        border-color: #005fff;
+    }
 
+    .container {
+        padding: 0;
+        margin-top: 0; /* Aligns directly with the tab content */
+    }  
 
     </style>
 
@@ -418,12 +424,7 @@
 
 <div>
     <div class="parent_div">
-        <div class="tab-container">
-            <div class="tab active" onclick="openTab(event, 'calcs')">Калькулятор</div>
-            <div class="tab" onclick="openTab(event, 'europe')">Доставка с Европы</div>
-        </div>
-
-        <div class="tab-content active" id="calcs">
+        <div>
             <div class="title">
                 <p class="title_p">Таможенный калькулятор Беларуси</p>
                 <p class="subtitle_p">Расчет всех таможенных пошлин и сборов для автомобилей, ввезенных в Беларусь</p>
