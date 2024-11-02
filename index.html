@@ -15,6 +15,7 @@
             justify-content: center;
             align-items: center;
         }
+
         .parent_div {
             width: 100%;
             justify-content: center; 
@@ -283,6 +284,56 @@
             margin-top: 8px;
         }
 
+        .tab-container {
+            display: flex;
+            width: 100%;
+            margin-left: 16px;
+            margin-right: 16px;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 16px;
+            color: #5f6368;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab:hover {
+            background-color: #f1f3f4;
+            color: #202124;
+        }
+
+        .tab.active {
+            background-color: #fff;
+            color: #1a73e8;
+            border-bottom: 2px solid #1a73e8;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: #fff;
+            margin-left: 16px;
+            margin-right: 16px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         #who_is_who { 
             margin-top: 8px;
         }
@@ -362,107 +413,137 @@
 </head>
 <body>
 
-<div class="parent_div">
-    <div class="title">
-        <p class="title_p">Таможенный калькулятор Беларуси</p>
-        <p class="subtitle_p">Расчет всех таможенных пошлин и сборов для автомобилей, ввезенных в Беларусь</p>
+<div>
+    <div class="tab-container">
+        <div class="tab active" onclick="openTab(event, 'calcs')">Калькулятор</div>
+        <div class="tab" onclick="openTab(event, 'europe')">Доставка с Европы</div>
+        <div class="tab" onclick="openTab(event, 'usa')">Доставка с USA</div>
     </div>
-    <div class="container">
-        <div id="padding_div">
-            <div class="section-title">Параметры автомобиля</div>
-    
-            <div class="form-group">
-                <label>КТО РАСТАМАЖИВАЕТ</label>
-                <div class="radio-group">
-                    <input type="radio" id="physPerson" name="who" value="Физ. лицо" checked>
-                    <label id="who_is_who" for="physPerson">Физ. лицо</label>
+
+    <div class="parent_div tab-content active" id="calcs">
+        <div class="title">
+            <p class="title_p">Таможенный калькулятор Беларуси</p>
+            <p class="subtitle_p">Расчет всех таможенных пошлин и сборов для автомобилей, ввезенных в Беларусь</p>
+        </div>
+        <div class="container">
+            <div id="padding_div">
+                <div class="section-title">Параметры автомобиля</div>
         
-                    <input type="radio" id="jurPerson" name="who" value="Юр. лицо">
-                    <label id="who_is_who" for="jurPerson">Юр. лицо</label>
+                <div class="form-group">
+                    <label>КТО РАСТАМАЖИВАЕТ</label>
+                    <div class="radio-group">
+                        <input type="radio" id="physPerson" name="who" value="Физ. лицо" checked>
+                        <label id="who_is_who" for="physPerson">Физ. лицо</label>
+            
+                        <input type="radio" id="jurPerson" name="who" value="Юр. лицо">
+                        <label id="who_is_who" for="jurPerson">Юр. лицо</label>
+                    </div>
+                </div>
+        
+                <div class="form-group">
+                    <label for="carAge">ВОЗРАСТ АВТОМОБИЛЯ</label>
+                    <select id="carAge" required>
+                        <option value="" disabled selected>Возраст автомобиля</option>
+                        <option value="до 3-х лет">до 3-х лет</option>
+                        <option value="от 3-х до 5 лет">от 3-х до 5 лет</option>
+                        <option value="более 5 лет">более 5 лет</option>
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <label for="engineType"> ТИП ДВИГАТЕЛЯ</label>
+                    <select id="engineType">
+                        <option value="" disabled selected>Тип двигателя</option>
+                        <option value="Бензин">Бензин</option>
+                        <option value="Бензин(гибрид)">Бензин(гибрид)</option>
+                        <option value="Дизель">Дизель</option>
+                        <option value="Дизель(гибрид)">Дизель(гибрид)</option>
+                        <option value="Электро">Электро</option>
+                    </select>
+                </div>
+        
+                <div class="form-group" id="engineVolumeDiv">
+                    <label for="engineVolume">ОБЪЕМ ДВИГАТЕЛ, СМ³</label>
+                    <input type="number" id="engineVolume" placeholder="0">
+                </div>
+    
+                <div class="form-group">
+                    <label for="price">СТОИМОСТЬ, EUR</label>
+                    <input type="number" id="price" placeholder="0">
+                </div>
+        
+                <div id="discount-label" class="form-group toggle-container">
+                    <div class="toggle-text">
+                        <label>Таможенная льгота 50%</label>
+                        <span class="subtitle">Указ №140</span>
+                    </div>
+                    <input type="checkbox" id="discount" unchecked>
                 </div>
             </div>
-    
-            <div class="form-group">
-                <label for="carAge">ВОЗРАСТ АВТОМОБИЛЯ</label>
-                <select id="carAge" required>
-                    <option value="" disabled selected>Возраст автомобиля</option>
-                    <option value="до 3-х лет">до 3-х лет</option>
-                    <option value="от 3-х до 5 лет">от 3-х до 5 лет</option>
-                    <option value="более 5 лет">более 5 лет</option>
-                </select>
+        
+            <hr>
+            <div id="button_div">
+                <button id="calculate">Рассчитать стоимость</button>
             </div>
-    
-            <div class="form-group">
-                <label for="engineType"> ТИП ДВИГАТЕЛЯ</label>
-                <select id="engineType">
-                    <option value="" disabled selected>Тип двигателя</option>
-                    <option value="Бензин">Бензин</option>
-                    <option value="Бензин(гибрид)">Бензин(гибрид)</option>
-                    <option value="Дизель">Дизель</option>
-                    <option value="Дизель(гибрид)">Дизель(гибрид)</option>
-                    <option value="Электро">Электро</option>
-                </select>
-            </div>
-    
-            <div class="form-group" id="engineVolumeDiv">
-                <label for="engineVolume">ОБЪЕМ ДВИГАТЕЛ, СМ³</label>
-                <input type="number" id="engineVolume" placeholder="0">
-            </div>
-
-            <div class="form-group">
-                <label for="price">СТОИМОСТЬ, EUR</label>
-                <input type="number" id="price" placeholder="0">
-            </div>
-    
-            <div id="discount-label" class="form-group toggle-container">
-                <div class="toggle-text">
-                    <label>Таможенная льгота 50%</label>
-                    <span class="subtitle">Указ №140</span>
+        
+            <div class="summary-container">
+                <div class="summary-item">
+                    <span id="first_calc_label">Таможенная пошлина</span>
+                    <span id="first_calc" class="summary-value">0 EUR</span>
                 </div>
-                <input type="checkbox" id="discount" unchecked>
+                <div class="summary-item">
+                    <span>Утилизационный сбор</span>
+                    <span class="summary-value" id="recycling_fee">0 BYN</span>
+                </div>
+                <div class="summary-item">
+                    <span>Таможенный сбор</span>
+                    <span id="custom_duty" class="summary-value">0 BYN</span>
+                </div>
             </div>
         </div>
     
-        <hr>
-        <div id="button_div">
-            <button id="calculate">Рассчитать стоимость</button>
-        </div>
+        <ul>
+            <li>Расчет актуален на 2024 год</li>
+            <li>Расчет произведен в соответствии с 
+                <a href="https://eec.eaeunion.org/upload/medialibrary/c30/8uxy42l5mogucd8lnp9q3wtc4igi2vki/Prilozhenie-2_107.pdf" target="_blank">Приложением № 2 к Решению Совета Евразийской экономической комиссии № 107 от 20 декабря 2017 г.</a>
+            </li>
+            <li>
+                <a href="https://pravo.by/document/?guid=12551&p0=P31900140&p1=1" target="_blank">Указ № 140 Президента Республики Беларусь от 10 апреля 2019 г.</a>
+            </li>
+        </ul>
     
-        <div class="summary-container">
-            <div class="summary-item">
-                <span id="first_calc_label">Таможенная пошлина</span>
-                <span id="first_calc" class="summary-value">0 EUR</span>
-            </div>
-            <div class="summary-item">
-                <span>Утилизационный сбор</span>
-                <span class="summary-value" id="recycling_fee">0 BYN</span>
-            </div>
-            <div class="summary-item">
-                <span>Таможенный сбор</span>
-                <span id="custom_duty" class="summary-value">0 BYN</span>
-            </div>
+        <div style="margin:0 auto;text-align:center;margin-top:24px; margin-bottom: 12px;">
+            <a href="https://your-link.com" class="contact-button">
+                <img src="icTelegram.svg" alt="Telegram" class="icon">
+                Связаться с нами
+            </a>
         </div>
     </div>
 
-    <ul>
-        <li>Расчет актуален на 2024 год</li>
-        <li>Расчет произведен в соответствии с 
-            <a href="https://eec.eaeunion.org/upload/medialibrary/c30/8uxy42l5mogucd8lnp9q3wtc4igi2vki/Prilozhenie-2_107.pdf" target="_blank">Приложением № 2 к Решению Совета Евразийской экономической комиссии № 107 от 20 декабря 2017 г.</a>
-        </li>
-        <li>
-            <a href="https://pravo.by/document/?guid=12551&p0=P31900140&p1=1" target="_blank">Указ № 140 Президента Республики Беларусь от 10 апреля 2019 г.</a>
-        </li>
-    </ul>
-
-    <div style="margin:0 auto;text-align:center;margin-top:24px; margin-bottom: 12px;">
-        <a href="https://your-link.com" class="contact-button">
-            <img src="icTelegram.svg" alt="Telegram" class="icon">
-            Связаться с нами
-        </a>
+    <div id="europe" class="parent_div tab-content">
+        <div class="title">
+            <p class="title_p">Таможенный калькулятор Беларуси</p>
+            <p class="subtitle_p">Расчет всех таможенных пошлин и сборов для автомобилей, ввезенных в Беларусь</p>
+        </div>
     </div>
 </div>
 
+
+
 <script>
+    function openTab(event, tabId) {
+        document.querySelectorAll('.tab-content').forEach(tabContent => {
+            tabContent.classList.remove('active');
+        });
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
    document.querySelectorAll('input').forEach(input => {
         input.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
