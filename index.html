@@ -14,6 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-x: hidden;
         }
 
         .parent_div {
@@ -380,6 +381,58 @@
         margin-top: 0; /* Aligns directly with the tab content */
     }  
 
+    /* Button to open the side menu */
+    .menu-button {
+        width: auto;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #1a73e8;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        margin: 15px;
+    }
+
+    /* The side menu */
+    .side-menu {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #333;
+        overflow-x: hidden;
+        transition: 0.3s;
+        padding-top: 60px;
+        z-index: 1;
+    }
+
+    /* Links inside the side menu */
+    .side-menu a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+    }
+
+    /* Hover effect for links */
+    .side-menu a:hover {
+        background-color: #575757;
+    }
+
+    /* Close button in the side menu */
+    .side-menu .close-button {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 36px;
+        color: white;
+        cursor: pointer;
+    }
+
     </style>
 
 <script type="text/javascript">
@@ -424,6 +477,17 @@
 
 <div>
     <div class="parent_div">
+        <button class="menu-button" onclick="openMenu()">☰</button>
+
+        <!-- The side menu -->
+        <div id="sideMenu" class="side-menu">
+            <a href="javascript:void(0)" class="close-button" onclick="closeMenu()">×</a>
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+
         <div>
             <div class="title">
                 <p class="title_p">Таможенный калькулятор Беларуси</p>
@@ -535,17 +599,13 @@
 
 
 <script>
-    function openTab(event, tabId) {
-        document.querySelectorAll('.tab-content').forEach(tabContent => {
-            tabContent.classList.remove('active');
-        });
+     function openMenu() {
+        document.getElementById("sideMenu").style.width = "250px";
+    }
 
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.classList.remove('active');
-        });
-
-        document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+    /* Function to close the side menu */
+    function closeMenu() {
+        document.getElementById("sideMenu").style.width = "0";
     }
 
    document.querySelectorAll('input').forEach(input => {
